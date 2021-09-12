@@ -1,0 +1,21 @@
+### User signup
+POST http://localhost:3001/v1/user
+Content-Type: application/json
+
+{
+    "name": "chamal2",
+    "company": "SLR",
+    "address": "col 03",
+    "phone": "0771102589",
+    "email": "chamal22.gunasinghe@gmail.com",
+    "password": "123456789"
+}
+
+### User signin
+POST http://localhost:3001/v1/user/login
+Content-Type: application/json
+
+{
+    "email": "chamal22.gunasinghe@gmail.com",
+    "password": "123456789"
+}

@@ -1,13 +1,14 @@
 const User = require("../models/UserSchema");
-const {hashPassword} = require("../helpers/bcrypt-helper")
+const { hashPassword, comparePassword } = require("../helpers/bcrypt-helper")
+const { getUserByEmail } = require("../helpers/userHelper")
 
 
 exports.insert = async (req, res) => {
-    const { name, company, address, phone, email, password} = req.body;
+    const { name, company, address, phone, email, password } = req.body;
 
     //Hash password
     const hashedPassword = await hashPassword(password);
-    const newUser = {name, company, address, phone, email, password: hashedPassword}
+    const newUser = { name, company, address, phone, email, password: hashedPassword }
 
     User(newUser)
         .save((err, result) => {
@@ -21,11 +22,24 @@ exports.insert = async (req, res) => {
 }
 
 
-exports.insert2 = (user) => {
-    return new Promise((resolve, reject) => {
-        User(user)
-            .save()
-            .then(data => resolve(data))
-            .catch(error => reject(error));
-    });
+exports.login = async (req, res) => {
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+        return res.json({ status: 'Error', message: "Invalid credentials" })
+    }
+
+    const user = await getUserByEmail(email);
+
+    const dbPass = user && user._id ? user.password : null;
+
+    if (!dbPass) return res.json({ status: 'Error', message: "Invalid email or password" })
+
+    const result = await comparePassword(password, dbPass);
+
+    // console.log(result);
+
+    return res.json({ message: 'login success', result })
+
+
 }
