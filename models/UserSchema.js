@@ -32,6 +32,18 @@ const UserSchema = new Schema({
         minLength: 8,
         maxLength: 100,
         required: true
+    },
+    refreshJWT: {
+        token: {
+            type: String,
+            maxLength: 500,
+            default: ''
+        },
+        addedDate: {
+            type: Date,
+            required: true,
+            default: Date.now()
+        }
     }
 },
     { timestamps: true }

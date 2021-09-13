@@ -1,7 +1,8 @@
 const User = require("../models/UserSchema");
 const { hashPassword, comparePassword } = require("../helpers/bcrypt-helper")
-const { getUserByEmail } = require("../helpers/userHelper")
-
+const { getUserByEmail } = require("../helpers/userHelper");
+const { createAccessJWT, createRefreshJWT } = require('../helpers/jwtHelper');
+ 
 
 exports.insert = async (req, res) => {
     const { name, company, address, phone, email, password } = req.body;
@@ -33,13 +34,19 @@ exports.login = async (req, res) => {
 
     const dbPass = user && user._id ? user.password : null;
 
-    if (!dbPass) return res.json({ status: 'Error', message: "Invalid email or password" })
+    if (!dbPass) return res.json({ status: 'Error', message: "Invalid email or password" });
 
     const result = await comparePassword(password, dbPass);
 
-    // console.log(result);
+    if (!result) return res.json({ status: 'Error', message: "Invalid email or password" });
 
-    return res.json({ message: 'login success', result })
+    const accessJWT = await createAccessJWT(user.email, user._id);
+    const refreshJWT = await createRefreshJWT(user.email, user._id);
 
-
+    return res.json({
+        status: 'Success',
+        message: 'Login success',
+        accessJWT,
+        refreshJWT
+    });
 }
