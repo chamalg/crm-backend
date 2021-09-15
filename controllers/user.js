@@ -2,7 +2,7 @@ const User = require("../models/UserSchema");
 const { hashPassword, comparePassword } = require("../helpers/bcrypt-helper")
 const { getUserByEmail } = require("../helpers/userHelper");
 const { createAccessJWT, createRefreshJWT } = require('../helpers/jwtHelper');
- 
+
 
 exports.insert = async (req, res) => {
     const { name, company, address, phone, email, password } = req.body;
@@ -48,5 +48,13 @@ exports.login = async (req, res) => {
         message: 'Login success',
         accessJWT,
         refreshJWT
+    });
+}
+
+exports.getUser = (req, res, next) => {
+    return res.json({
+        status: 'Success',
+        message: 'Login success',
+        userId: req.userId
     });
 }
