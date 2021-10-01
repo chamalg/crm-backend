@@ -2,6 +2,7 @@ const User = require("../models/UserSchema");
 const { hashPassword, comparePassword } = require("../helpers/bcrypt-helper")
 const { getUserByEmail } = require("../helpers/userHelper");
 const { createAccessJWT, createRefreshJWT } = require('../helpers/jwtHelper');
+const { setPasswordResetPin } = require('./ResetPin')
 
 
 exports.insert = async (req, res) => {
@@ -52,9 +53,28 @@ exports.login = async (req, res) => {
 }
 
 exports.getUser = (req, res, next) => {
+
     return res.json({
         status: 'Success',
         message: 'Login success',
         userId: req.userId
     });
+}
+
+exports.resetPassword = async (req, res, next) => {
+
+    const { email } = req.body;
+    console.log(email)
+    const user = await getUserByEmail(email);
+
+    if (!user || !user._id) {
+        return res.json({
+            status: 'Error',
+            message: 'Reset password failed'
+        });
+    }
+
+    const setPin = await setPasswordResetPin(email);
+    return res.json(setPin);
+
 }

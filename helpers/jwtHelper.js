@@ -5,7 +5,7 @@ const { storeUserRefreshJWT } = require('../helpers/userHelper');
 const createAccessJWT = async (email, id) => {
     try {
         const accessJWT = await jwt.sign({ email }, process.env.JWT_ACCESS_SECRET,
-            { expiresIn: '15m' });
+            { expiresIn: '60m' });
         await setJwt(accessJWT, `${id}`);
         return Promise.resolve(accessJWT);
     } catch (error) {
@@ -29,10 +29,18 @@ const verifyAccessJWT = userJWT => {
     try {
         return Promise.resolve(jwt.verify(userJWT, process.env.JWT_ACCESS_SECRET));
     } catch (error) {
-        return Promise.reject(error);
+        return Promise.resolve(error);
+    }
+}
+
+const verifyRefreshJWT = userJWT => {
+    try {
+        return Promise.resolve(jwt.verify(userJWT, process.env.JWT_REFRESH_SECRET));
+    } catch (error) {
+        return Promise.resolve(error);
     }
 }
 
 module.exports = {
-    createAccessJWT, createRefreshJWT, verifyAccessJWT
+    createAccessJWT, createRefreshJWT, verifyAccessJWT, verifyRefreshJWT
 }

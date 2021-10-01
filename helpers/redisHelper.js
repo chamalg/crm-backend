@@ -32,6 +32,16 @@ const getJwt = (key) => {
     }
 }
 
+
+const deleteJwt = (key) => {
+    console.log("Deleting access JWT")
+    try {
+        client.del(key);
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 module.exports = {
-    setJwt, getJwt
+    setJwt, getJwt, deleteJwt
 }

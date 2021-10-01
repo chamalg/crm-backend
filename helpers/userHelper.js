@@ -6,12 +6,12 @@ exports.getUserByEmail = (email) => {
             User.findOne({ email }, (error, data) => {
                 if (error || !data) {
                     console.log(error);
-                    reject(error);
+                    return reject(error);
                 }
-                resolve(data);
+                return resolve(data);
             });
         } catch (error) {
-            reject(error);
+            return reject(error);
         }
     });
 }

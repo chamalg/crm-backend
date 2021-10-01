@@ -11,6 +11,7 @@ require("dotenv").config();
 
 const userRoutes = require("./routes/user")
 const ticketRoutes = require("./routes/ticket")
+const tokensRoutes = require("./routes/tokens")
 const errorHandler = require('./utils/errorHandler')
 
 
@@ -37,6 +38,7 @@ app.use(bodyParser.json());
 
 app.use('/v1/user', userRoutes);
 app.use('/v1/tickets', ticketRoutes);
+app.use('/v1/tokens', tokensRoutes);
 
 app.use('*', (req, res, next) => {
     const error = new Error('Route is not found');

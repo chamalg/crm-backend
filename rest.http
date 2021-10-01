@@ -22,4 +22,18 @@ Content-Type: application/json
 
 ### User profile
 GET http://localhost:3001/v1/user
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImNoYW1hbC5ndW5hc2luZ2hlQGdtYWlsLmNvbSIsImlhdCI6MTYzMTcyMDQ5OSwiZXhwIjoxNjMxNzIxMzk5fQ.GWjtA8hgk8J8kgLAMSsPaQjLllbphq_nttalWYk-S5Q
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImNoYW1hbC5ndW5hc2luZ2hlQGdtYWlsLmNvbSIsImlhdCI6MTYzMjQyNDcwOSwiZXhwIjoxNjMyNDI4MzA5fQ.m5PldU-rx1HAh7hEj7BC1-3L0G00DyrKyozyu30gllQ
+
+
+### User profile
+GET http://localhost:3001/v1/tokens/new-access-jwt
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImNoYW1hbC5ndW5hc2luZ2hlQGdtYWlsLmNvbSIsImlhdCI6MTYzMTk0MjMzNSwiZXhwIjoxNjM0NTM0MzM1fQ.UNFiqnHr-_6oOQOI6BWJLjpaNbid3Ys_7VSxo4E40nk
+
+
+### User Reset Password
+POST http://localhost:3001/v1/user/reset-password
+Content-Type: application/json
+
+{
+    "email": "chamal.gunasinghe@gmail.com"
+}

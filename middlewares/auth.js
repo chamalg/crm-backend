@@ -1,14 +1,13 @@
 const { verifyAccessJWT } = require('../helpers/jwtHelper');
-const { getJwt } = require('../helpers/redisHelper');
+const { getUserByEmail } = require('../helpers/userHelper');
+const { deleteJwt, getJwt } = require("../helpers/redisHelper");
 
 exports.userAuthorization = async (req, res, next) => {
     const { authorization } = req.headers;
 
     const decoded = await verifyAccessJWT(authorization);
-    console.log(decoded);
     if (decoded.email) {
         const userId = await getJwt(authorization);
-        console.log(userId);
 
         if (!userId) {
             return res.status(403).json({ message: "Forbidden" });
@@ -18,5 +17,6 @@ exports.userAuthorization = async (req, res, next) => {
 
         return next();
     }
+    deleteJwt(authorization);
     return res.status(403).json({ message: "Forbidden" });
 }
